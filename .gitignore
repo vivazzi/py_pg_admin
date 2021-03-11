@@ -1,0 +1,17 @@
+*.pyc
+*.pyo
+*.py[co]
+*.swp
+*.orig
+.idea
+*~
+__pycache__
+
+.venv
+pip_files_for_pg_admin
+
+local_settings.py
+
+Pipfile
+Pipfile.lock
+/run.sh
