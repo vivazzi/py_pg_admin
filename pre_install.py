@@ -6,12 +6,34 @@ from colorama import Fore, Style
 from os.path import join, exists
 
 from settings import PG_ADMIN_VERSION
-from utils import get_pgadmin_path, python_path, pg_admin_folder, ROOT_DIR, pg_admin_major_version, get_saved_versions
+from utils import python_path, ROOT_DIR, pg_admin_major_version, get_saved_versions, get_env_path, pg_admin_script_name
 
 
 class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg
+
+
+def _get_python_version():
+    # try get version from Pipfile
+    with open(join(ROOT_DIR, 'Pipfile')) as f:
+        for line in f:
+            line.strip()
+            if line.startswith('python_version'):
+                parts = line.strip().split(' ')
+                if len(parts) >= 3:
+                    version = parts[2].replace('"', '')
+                    version_parts = version.split('.')
+                    if len(version_parts) >= 2:
+                        return f'{version_parts[0]}.{version_parts[1]}'
+
+    return '[python_version]'
+
+
+def get_pgadmin_path_from_pipfile():
+    lib_path = join(get_env_path(), 'lib')
+
+    return join(lib_path, f'python{_get_python_version()}', 'site-packages', pg_admin_script_name)
 
 
 if __name__ == '__main__':
@@ -29,15 +51,13 @@ if __name__ == '__main__':
                     f'--- pgAdmin pre-install ---\n\n'
                     f'In local_settings.py you can set PG_ADMIN_VERSION (now is {PG_ADMIN_VERSION})\n'
                     f'You can use saved versions : {get_saved_versions()}\n\n'
-                    f'Detail documentation see at README.md'
+                    f'See detail documentation in README.md'
                 )
                 exit(0)
             else:
                 assert False, '("{}", "{}"): unhandled option'.format(p, v)
 
-        env_path = join(ROOT_DIR, '.venv')
-
-        pgadmin_path = get_pgadmin_path(env_path, pg_admin_folder)
+        env_path = get_env_path()
 
         print(f'--- pgAdmin pre-install  ---\n\n'
               f'Run steps:\n')
@@ -67,6 +87,7 @@ if __name__ == '__main__':
                   f'PG_ADMIN_VERSION == {PG_ADMIN_VERSION} can be different from the parameter in Pipfile. '
                   f'Be sure that your Pipfile contains pgAdmin package.{Style.RESET_ALL}\n')
 
+        pgadmin_path = get_pgadmin_path_from_pipfile()
         print(f'2. To set your pgAdmin, input in terminal and follow instructions:\n'
               f'{Style.BRIGHT}{Fore.GREEN}{python_path} {Style.BRIGHT}{Fore.GREEN}{pgadmin_path}/setup.py{Style.RESET_ALL}\n')
 
@@ -75,7 +96,7 @@ if __name__ == '__main__':
               f'But go step 3 for create terminal command and icon.\n')
 
         print(f'3. Run in terminal:\n'
-              f'{Style.BRIGHT}{Fore.GREEN}sudo python3 post_install{Style.RESET_ALL}\n')
+              f'{Style.BRIGHT}{Fore.GREEN}sudo python3 post_install.py{Style.RESET_ALL}\n')
 
     except Usage as err:
         print(err.msg, file=sys.stderr)

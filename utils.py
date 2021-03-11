@@ -7,17 +7,8 @@ from settings import PG_ADMIN_VERSION
 ROOT_DIR = dirname(__file__)
 
 
-def get_pgadmin_path(env_path, pg_admin_dir):
-    lib_path = join(env_path, 'lib')
-    python_dir = check_output(['ls', lib_path]).decode('utf-8').strip()
-    return join(lib_path, python_dir, 'site-packages', pg_admin_dir)
-
-
-def _get_python_path():
-    return check_output(['pipenv', '--py']).decode('utf-8').strip().replace('\n', '')
-
-
-python_path = _get_python_path()
+def get_env_path():
+    return join(ROOT_DIR, '.venv')
 
 
 def _get_pg_admin_major_version():
@@ -27,11 +18,24 @@ def _get_pg_admin_major_version():
 pg_admin_major_version = _get_pg_admin_major_version()
 
 
-def _get_pg_admin_folder():
+def _get_pg_admin_script_name():
     return f'pgadmin{pg_admin_major_version}'
 
 
-pg_admin_folder = _get_pg_admin_folder()
+pg_admin_script_name = _get_pg_admin_script_name()
+
+
+def get_pgadmin_path():
+    lib_path = join(get_env_path(), 'lib')
+    python_dir = check_output(['ls', lib_path]).decode('utf-8').strip()
+    return join(lib_path, python_dir, 'site-packages', pg_admin_script_name)
+
+
+def _get_python_path():
+    return join(get_env_path(), 'bin', 'python')
+
+
+python_path = _get_python_path()
 
 
 def get_saved_versions():
