@@ -71,21 +71,23 @@ if __name__ == '__main__':
         if not exists(join(ROOT_DIR, 'Pipfile')):
             # copy Pipfile according to PG_ADMIN_VERSION
             pip_files_for_pg_admin_dir = join(ROOT_DIR, 'pip_files_for_pg_admin')
-            pg_admin_version_dir = join(pip_files_for_pg_admin_dir, PG_ADMIN_VERSION)
+            pg_admin_version_dir = join(pip_files_for_pg_admin_dir, PG_ADMIN_VERSION[0], PG_ADMIN_VERSION[1])
             if not exists(pg_admin_version_dir):
-                sys.exit(f'There is not Pipfile for pgAdmin version {PG_ADMIN_VERSION}.\n\n'
-                         f'Choose saved PG_ADMIN_VERSION for settings.py: {get_saved_versions()}\n'
-                         f'Or create new Pipfile with specified pgAdmin wheel version. '
-                         f'Look at available wheel version at https://ftp.postgresql.org/pub/pgadmin/. '
-                         f'See docs how create Pipfile at https://github.com/vivazzi/py_pg_admin\n'
-                         f'Pipfile examples: {pip_files_for_pg_admin_dir}')
+                print(f'{Fore.RED}There is not Pipfile for pgAdmin version {Style.BRIGHT}{PG_ADMIN_VERSION[0]}: {PG_ADMIN_VERSION[1]}{Style.NORMAL}.\n\n'
+                      f'Choose saved PG_ADMIN_VERSION for settings.py:\n{get_saved_versions()}\n'
+                      f'Or create new Pipfile with specified pgAdmin version. '
+                      f'Look at available wheel version at https://ftp.postgresql.org/pub/pgadmin/. '
+                      f'See docs how create Pipfile at https://github.com/vivazzi/py_pg_admin\n'
+                      f'Pipfile examples: {pip_files_for_pg_admin_dir}{Style.RESET_ALL}')
 
-            shutil.copyfile(join(pip_files_for_pg_admin_dir, PG_ADMIN_VERSION, 'Pipfile'), join(ROOT_DIR, 'Pipfile'))
-            shutil.copyfile(join(pip_files_for_pg_admin_dir, PG_ADMIN_VERSION, 'Pipfile.lock'), join(ROOT_DIR, 'Pipfile.lock'))
+                sys.exit(1)
+
+            shutil.copyfile(join(pip_files_for_pg_admin_dir, PG_ADMIN_VERSION[0], PG_ADMIN_VERSION[1], 'Pipfile'), join(ROOT_DIR, 'Pipfile'))
+            shutil.copyfile(join(pip_files_for_pg_admin_dir, PG_ADMIN_VERSION[0], PG_ADMIN_VERSION[1], 'Pipfile.lock'), join(ROOT_DIR, 'Pipfile.lock'))
         else:
             print(f'{Fore.YELLOW}WARNING: It is used existed Pipfile and set parameter '
                   f'PG_ADMIN_VERSION == {PG_ADMIN_VERSION} can be different from the parameter in Pipfile. '
-                  f'Be sure that your Pipfile contains pgAdmin package.{Style.RESET_ALL}\n')
+                  f'Make sure that your Pipfile contains pgAdmin package.{Style.RESET_ALL}\n')
 
         pgadmin_path = get_pgadmin_path_from_pipfile()
         print(f'2. To set your pgAdmin, input in terminal and follow instructions:\n'

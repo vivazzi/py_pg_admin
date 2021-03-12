@@ -5,7 +5,6 @@ from colorama import Fore, Style
 from subprocess import check_output
 from os.path import join, exists
 
-from settings import PG_ADMIN_VERSION
 from utils import get_pgadmin_path, pg_admin_script_name, ROOT_DIR, pg_admin_major_version, python_path
 
 
@@ -35,10 +34,6 @@ if __name__ == '__main__':
         os.remove(f'/usr/bin/{pg_admin_script_name}')
     check_output(['ln', '-s', join(ROOT_DIR, 'run.sh'), f'/usr/bin/{pg_admin_script_name}'])
 
-    # set permissions
-    check_output(['chmod', '-R', '777', env_path])
-    check_output(['chmod', '777', python_path])
-
     # create icon
     icon_path = f'/usr/share/applications/{pg_admin_script_name}.desktop'
     if exists(icon_path):
@@ -46,7 +41,7 @@ if __name__ == '__main__':
 
     icon_img_path = join(ROOT_DIR, 'templates/icon.png')
 
-    pg_admin_name = 'pgAdmin {}'.format(PG_ADMIN_VERSION.split('.')[0])
+    pg_admin_name = f'pgAdmin {pg_admin_major_version}'
     with open(icon_path, 'w') as f:
         f.write(
             f'[Desktop Entry]\n'
@@ -62,8 +57,8 @@ if __name__ == '__main__':
         )
 
     print(
-        f'Done! Log files, database and other local files is in ~/.pgadmin/ (it is created after login to pgAdmin)\n\n'
-        f'To run pgAdmin, click icon in {Style.BRIGHT}Menu/Development/{pg_admin_name}{Style.RESET_ALL} (fast method) '
-        f'or input in terminal:\n'
-        f'{Style.BRIGHT}{Fore.GREEN}{pg_admin_script_name}{Style.RESET_ALL}'
+        f'Done! Log files, database and other local files is in ~/.pgadmin/ (it is created after login to pgAdmin).\n\n'
+        f'To run pgAdmin:\n'
+        f'- click icon in {Style.BRIGHT}Menu/Development/{pg_admin_name}{Style.RESET_ALL} (fast method)\n'
+        f'- input in terminal: {Style.BRIGHT}{Fore.GREEN}{pg_admin_script_name}{Style.RESET_ALL}\n'
     )

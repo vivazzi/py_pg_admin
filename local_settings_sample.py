@@ -1,1 +1,1 @@
-PG_ADMIN_VERSION = '4.29'
+PG_ADMIN_VERSION = ['pgadmin4', '5.0']

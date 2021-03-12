@@ -1,0 +1,13 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pgadmin4 = {file = "https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v5.0/pip/pgadmin4-5.0-py3-none-any.whl"}
+gssapi = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"

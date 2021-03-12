@@ -12,7 +12,7 @@ def get_env_path():
 
 
 def _get_pg_admin_major_version():
-    return PG_ADMIN_VERSION.split('.')[0]
+    return PG_ADMIN_VERSION[0].replace('pgadmin', '')
 
 
 pg_admin_major_version = _get_pg_admin_major_version()
@@ -40,4 +40,9 @@ python_path = _get_python_path()
 
 def get_saved_versions():
     pip_files_for_pg_admin_dir = join(ROOT_DIR, 'pip_files_for_pg_admin')
-    return ', '.join(os.listdir(pip_files_for_pg_admin_dir))
+    res = ''
+    for product_name in os.listdir(pip_files_for_pg_admin_dir):
+        versions = ', '.join(os.listdir(join(pip_files_for_pg_admin_dir, product_name)))
+        res += f'{product_name}: {versions}\n'
+
+    return res
