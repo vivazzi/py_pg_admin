@@ -37,9 +37,9 @@ py_pg_admin is package for ease of pgAdmin installation with the creation of a s
    sudo python3 post_install.py
    ```
 
-Now you can run pgAdmin in terminal `pgAdmin[major version]`, for example:
+Now you can run pgAdmin in terminal: `pgAdmin[major version]`. For example:
 ```shell
-pgAdmin4
+pgadmin4
 ```
 
 For convenience, you can use icon in Linux menu in Development section. 
