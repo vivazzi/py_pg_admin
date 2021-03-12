@@ -22,12 +22,12 @@ py_pg_admin is package for ease of pgAdmin installation with the creation of a s
    python3 pre_install.py
    ```
 
-   This command create .venv folder in projects folder to virtual environment will be near with project. 
-   Also command will try to add Pipfile specified in local_settings.py, if you did not add Pipfile yourself.
+   This command create `.venv` folder in projects folder to virtual environment will be near with project. 
+   Also command will try to add `Pipfile` specified in `local_settings.py`, if you did not add `Pipfile` yourself.
    
 
 4. Make sure you have `pipenv >= 2020.11.15` (older version may miss required packages). 
-   Check your Pipfile (create your own Pipfile, if you want to use other pgAdmin) and install packages:
+   Check your Pipfile (create your own `Pipfile`, if you want to use other pgAdmin) and install packages:
    ```shell
    pipenv sync
    ```
