@@ -6,31 +6,36 @@ py_pg_admin is package for ease of pgAdmin installation with the creation of a s
 ## Installing
 
 1. Open terminal and clone repo anywhere at your home folder.
-```shell
-git clone https://github.com/vivazzi/py_pg_admin.git
-cd py_pg_admin
-```
+   ```shell
+   git clone https://github.com/vivazzi/py_pg_admin.git
+   cd py_pg_admin
+   ```
 
 2. (Optional) Copy local_settings_sample.py to local_settings.py and 
    set wished parameters (using your favorite editor). To look available saved pipfiles, input:
-```shell
-python3 pre_install.py --help
-```
+   ```shell
+   python3 pre_install.py --help
+   ```
 
 3. Run pre-installation and follow instructions:
-```shell
-python3 pre_install.py
-```
+   ```shell
+   python3 pre_install.py
+   ```
 
-4. Be sure you have `pipenv >= 2020.11.15`. Check your Pipfile (create your own Pipfile, if you want to use other pgAdmin) and install packages:
-```shell
-pipenv sync
-```
+   This command create .venv folder in projects folder to virtual environment will be near with project. 
+   Also command will try to add Pipfile specified in local_settings.py, if you did not add Pipfile yourself.
+   
+
+4. Make sure you have `pipenv >= 2020.11.15` (older version may miss required packages). 
+   Check your Pipfile (create your own Pipfile, if you want to use other pgAdmin) and install packages:
+   ```shell
+   pipenv sync
+   ```
 
 5. Run in terminal:
-```shell
-sudo python3 post_install.py
-```
+   ```shell
+   sudo python3 post_install.py
+   ```
 
 Now you can run pgAdmin in terminal `pgAdmin[major version]`, for example:
 ```shell
